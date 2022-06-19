@@ -12,10 +12,10 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.iconfinder.Adapter.IconListAdapter
+import com.example.iconfinder.adapter.IconListAdapter
 import com.example.iconfinder.model.Icon
 import com.example.iconfinder.viewModel.MainActivityViewModel
-import com.example.iconfinder.Network.*
+import com.example.iconfinder.netowrk.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -24,8 +24,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var adapter: IconListAdapter
     private lateinit var layoutManager: GridLayoutManager
     private lateinit var viewModel: MainActivityViewModel
-    var query = "\"\""
-    val defaultQuery = "\"\""
+    var query = "default"
+    val defaultQuery = "default"
     private var startIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (isNetworkConnected(this))
-            loadData(query, NUMBER_OF_ICONS, startIndex)
+            loadData(query, 10, startIndex)
         else
             toast("No internet connection available")
 

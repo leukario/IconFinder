@@ -1,4 +1,5 @@
-package com.example.iconfinder.Adapter
+package com.example.iconfinder.adapter
+
 
 
 import android.view.LayoutInflater
@@ -35,6 +36,7 @@ class IconListAdapter(var list: List<Icon>)
 
         fun bind(position: Int) {
             val item = list[position]
+
 
             with(itemView) {
 
