@@ -1,4 +1,4 @@
-package com.example.iconfinder.netowrk
+package com.example.iconfinder.network
 
 import okhttp3.Interceptor
 import okhttp3.Response

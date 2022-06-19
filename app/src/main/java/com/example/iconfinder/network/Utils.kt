@@ -1,7 +1,11 @@
-package com.example.iconfinder.netowrk
+package com.example.iconfinder.network
 
 
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.widget.Toast
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,6 +15,8 @@ import java.util.concurrent.TimeUnit
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 
 private val interceptor = HttpLoggingInterceptor()
@@ -34,7 +40,24 @@ val retrofitClient: IconFinderService by lazy {
         .create(IconFinderService::class.java)
     client
 }
+fun askForPermission(activity: Activity) {
+    ActivityCompat.requestPermissions(
+        activity,
+        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+        REQUEST_CODE
+    )
+}
 
+fun isPermissionGranted(context: Context): Boolean {
+    return (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            == PackageManager.PERMISSION_GRANTED)
+}
+
+fun downloadImage(context: Context, downloadUrl: String) {
+    val intent = Intent(context, DownloadService::class.java)
+    intent.putExtra("url", downloadUrl)
+    context.startService(intent)
+}
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

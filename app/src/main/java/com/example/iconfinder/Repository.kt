@@ -6,11 +6,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.iconfinder.model.ApiResponse
 import com.example.iconfinder.model.Icon
-import com.example.iconfinder.netowrk.*
+import com.example.iconfinder.network.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Request
 import retrofit2.Response
 
 

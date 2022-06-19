@@ -5,5 +5,5 @@ data class Icon(
     val is_premium: Boolean,
     val prices: List<Price>,
     val raster_sizes: List<RasterSize>,
-
+    val categories: List<Category>,
 )

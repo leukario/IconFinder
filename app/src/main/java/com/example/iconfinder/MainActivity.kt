@@ -1,6 +1,7 @@
 package com.example.iconfinder
 
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 
@@ -15,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.iconfinder.adapter.IconListAdapter
 import com.example.iconfinder.model.Icon
 import com.example.iconfinder.viewModel.MainActivityViewModel
-import com.example.iconfinder.netowrk.*
+import com.example.iconfinder.network.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -158,6 +159,11 @@ class MainActivity : AppCompatActivity() {
     private fun showLoading(boolean: Boolean) {
         if (boolean) progress_bar.visibility = View.VISIBLE
         else progress_bar.visibility = View.INVISIBLE
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        val intent = Intent(this, DownloadService::class.java)
+        stopService(intent)
     }
 
     companion object {

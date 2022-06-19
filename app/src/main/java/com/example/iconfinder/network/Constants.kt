@@ -1,4 +1,4 @@
-package com.example.iconfinder.netowrk
+package com.example.iconfinder.network
 
 const val BASE_URL = "https://api.iconfinder.com/v4/"
 const val ICONS_URL = "icons/search"
