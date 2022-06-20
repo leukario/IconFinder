@@ -61,8 +61,6 @@ class DownloadService : Service() {
                     notificationManager.createNotificationChannel(notificationChannel)
                     notificationBuilder.setChannelId("download")
 
-                  //  if (Build.VERSION.SDK_INT <= 21)
-                     //   notificationBuilder.setSmallIcon(R.drawable.ic_logo)
                 }
 
                 val id = System.currentTimeMillis().toInt()

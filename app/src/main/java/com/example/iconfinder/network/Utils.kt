@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 
+
 private val interceptor = HttpLoggingInterceptor()
 private val httpClient = OkHttpClient.Builder().addInterceptor(AuthInterceptor("Bearer ", "X0vjEUN6KRlxbp2DoUkyHeM0VOmxY91rA6BbU5j3Xu6wDodwS0McmilLPBWDUcJ1"))
 private const val REQUEST_CODE = 2
@@ -57,7 +58,9 @@ fun downloadImage(context: Context, downloadUrl: String) {
     val intent = Intent(context, DownloadService::class.java)
     intent.putExtra("url", downloadUrl)
     context.startService(intent)
+   // download(downloadUrl,"Icon Downloads")
 }
+
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }

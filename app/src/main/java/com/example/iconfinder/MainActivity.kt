@@ -1,8 +1,13 @@
 package com.example.iconfinder
 
 
+import android.app.Activity
+import android.app.DownloadManager
+import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 
 import android.view.Menu
@@ -10,6 +15,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +24,8 @@ import com.example.iconfinder.model.Icon
 import com.example.iconfinder.viewModel.MainActivityViewModel
 import com.example.iconfinder.network.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.grid_item.*
+import java.io.File
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -75,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                Log.d("Size", listItems.size.toString())//The Api is not sending any data it can be shown in logcat
 
                 showLoading(false)
-                if (list.isEmpty()) toast("No more results found!")
+               if (list.isEmpty()) toast("No more results found!")
               //  Log.d("Main", listItems.size.toString())
             })
     }
@@ -166,6 +174,41 @@ class MainActivity : AppCompatActivity() {
         stopService(intent)
     }
 
+    private fun View.setButtonClick(item: Icon) {
+        download_btn.setOnClickListener {
+            if (!isPermissionGranted(context)) {
+                askForPermission(context as Activity)
+            } else {
+                Log.d("onclick","in")
+                val filePath = item.raster_sizes[0].formats[0].download_url
+                download(context, filePath,"Icon Downloads")
+            }
+        }
+    }
+    private fun download(context: Context,url:String,fileName:String) {
+        if (isPermissionGranted(context)) {
+            try {
+                val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                val imageLink = Uri.parse(url)
+                val request = DownloadManager.Request(imageLink)
+                request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
+                    .setMimeType("image/png")
+                    .setAllowedOverRoaming(false)
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    .setTitle(fileName)
+                    .setDestinationInExternalPublicDir(
+                        Environment.DIRECTORY_PICTURES,
+                        File.separator + fileName + ".png"
+                    )
+                downloadManager.enqueue(request)
+                context.toast("Icon Download Successful")
+            } catch (e: Exception) {
+                context.toast("Icon Download Failed")
+            }
+        } else {
+            askForPermission(context as Activity)
+        }
+    }
     companion object {
         private val listItems = mutableListOf<Icon>()
     }
