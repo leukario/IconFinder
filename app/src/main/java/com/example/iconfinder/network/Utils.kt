@@ -54,12 +54,6 @@ fun isPermissionGranted(context: Context): Boolean {
             == PackageManager.PERMISSION_GRANTED)
 }
 
-fun downloadImage(context: Context, downloadUrl: String) {
-    val intent = Intent(context, DownloadService::class.java)
-    intent.putExtra("url", downloadUrl)
-    context.startService(intent)
-   // download(downloadUrl,"Icon Downloads")
-}
 
 fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

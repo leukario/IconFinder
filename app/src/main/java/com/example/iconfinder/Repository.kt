@@ -2,7 +2,6 @@ package com.example.iconfinder
 
 
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.iconfinder.model.ApiResponse
 import com.example.iconfinder.model.Icon
@@ -26,10 +25,10 @@ val job = CoroutineScope(coroutineScope).launch {
             val request: Response<ApiResponse> = retrofitClient.getIcons(query,params(count,index))
             if (request.isSuccessful) {
                 isLoading = false
-               Log.d("Accepted","Request Accepted")
+             //  Log.d("Accepted","Request Accepted")
                 iconsLiveData.postValue(request.body()?.icons)
             } else {
-                Log.d("Rejected","Request Rejected")
+               // Log.d("Rejected","Request Rejected")
             }
         }
 
