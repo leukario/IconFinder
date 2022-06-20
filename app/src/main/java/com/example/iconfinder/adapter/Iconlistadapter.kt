@@ -50,7 +50,14 @@ class IconListAdapter(var list: List<Icon>)
 
 
             with(itemView) {
-                   icon_name.text = "${item.categories[0].name}"
+                if(item.categories.isNotEmpty())
+                {
+                    if(item.categories[0].name!=null)
+                    {
+                        icon_name.text = "${item.categories[0].name}"
+                    }
+                }
+
 
                 if (item.raster_sizes.size > 6)
                     image.load(item.raster_sizes[6].formats[0].preview_url) {
@@ -70,7 +77,7 @@ class IconListAdapter(var list: List<Icon>)
                     price.visibility = View.VISIBLE
                       if (item.prices.isNotEmpty()) {
                         val indianprice = (item.prices[0].price) * 78
-                        price.text = "$indianprice Rupees"
+                        price.text = "₹$indianprice"
                          }
                 } else {
                     image_paid.visibility = View.INVISIBLE

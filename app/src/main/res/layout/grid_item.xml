@@ -40,8 +40,8 @@
 
         <ImageView
             android:id="@+id/image_paid"
-            android:layout_width="60dp"
-            android:layout_height="40dp"
+            android:layout_width="49dp"
+            android:layout_height="35dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/paid_logo"
             android:visibility="invisible"
@@ -54,9 +54,9 @@
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="4dp"
             android:textColor="@color/green"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,8 +64,8 @@
 
         <ImageButton
             android:id="@+id/download_btn"
-            android:layout_width="33dp"
-            android:layout_height="28dp"
+            android:layout_width="31dp"
+            android:layout_height="27dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="4dp"
