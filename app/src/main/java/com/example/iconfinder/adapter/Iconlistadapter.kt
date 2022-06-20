@@ -67,18 +67,16 @@ class IconListAdapter(var list: List<Icon>)
                     image_paid.visibility = View.VISIBLE
                     download_btn.visibility = View.GONE
                     price.visibility = View.VISIBLE
-
-
-                if (item.prices.isNotEmpty()) {
-                    val indianprice = (item.prices[0].price) * 78
-                    price.text = "$indianprice Rupees"
-                }
+                      if (item.prices.isNotEmpty()) {
+                        val indianprice = (item.prices[0].price) * 78
+                        price.text = "$indianprice Rupees"
+                         }
                 } else {
                     image_paid.visibility = View.INVISIBLE
                     download_btn.visibility = View.VISIBLE
                     price.visibility = View.INVISIBLE
                     setButtonClick(item)
-                }
+                    }
                 }
             }
         private fun View.setButtonClick(item: Icon) {
