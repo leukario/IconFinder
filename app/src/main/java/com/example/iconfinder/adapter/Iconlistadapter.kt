@@ -89,10 +89,14 @@ class IconListAdapter(var list: List<Icon>)
                                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
                                 2
                             )
+                            if(isPermissionGranted(context))
+                            {
+                                val filePath = item.raster_sizes[0].formats[0].download_url
+                                download(context, filePath,item.categories[0].name)
+                            }
                         } else {
                           //  Log.d("else","Request Accepted")
                             val filePath = item.raster_sizes[0].formats[0].download_url
-                          //  Log.d("else",filePath.toString())
                            download(context, filePath,item.categories[0].name)
                         }
                     }
@@ -107,12 +111,12 @@ class IconListAdapter(var list: List<Icon>)
                     val request = DownloadManager.Request(imageLink)
                     request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
                         .setMimeType("image/png")
-                        .setAllowedOverRoaming(false)
+                        .setAllowedOverRoaming(true)
                         .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                         .setTitle(fileName)
                         .addRequestHeader("Authorization", "Bearer X0vjEUN6KRlxbp2DoUkyHeM0VOmxY91rA6BbU5j3Xu6wDodwS0McmilLPBWDUcJ1")
                         .setDestinationInExternalPublicDir(
-                            Environment.DIRECTORY_PICTURES,
+                            Environment.DIRECTORY_DOWNLOADS,
                             File.separator + fileName + ".png"
                         )
                     downloadManager.enqueue(request)
