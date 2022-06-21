@@ -3,6 +3,7 @@ package com.example.iconfinder
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -45,7 +46,6 @@ class MainActivity : AppCompatActivity() {
             loadData(query, 10, startIndex)
         else
             toast("No internet connection available")
-
         addOnScrollListener()
     }
 
@@ -95,16 +95,17 @@ class MainActivity : AppCompatActivity() {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val count = layoutManager.itemCount
+                Log.d("Scroll2","here")
 
-                if (dy > 0 && !isLoading) {
                     val holderCount = layoutManager.childCount
                     val oldCount = layoutManager.findFirstVisibleItemPosition()
+                    Log.d("Scroll1","here")
 
                     if (holderCount + oldCount >= count - 4 && !isLoading) {
+                        Log.d("Scroll","here")
                         startIndex += 20
                         viewModel.getIcons(query, NUMBER_OF_ICONS, startIndex)
                     }
-                }
             }
         })
     }
