@@ -109,11 +109,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(QUERY, query)
-        outState.putInt(START_INDEX, startIndex)
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
