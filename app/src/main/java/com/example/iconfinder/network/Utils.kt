@@ -22,15 +22,15 @@ import androidx.core.content.ContextCompat
 
 private val interceptor = HttpLoggingInterceptor()
 private val httpClient = OkHttpClient.Builder().addInterceptor(AuthInterceptor("Bearer ", "X0vjEUN6KRlxbp2DoUkyHeM0VOmxY91rA6BbU5j3Xu6wDodwS0McmilLPBWDUcJ1"))
-private const val REQUEST_CODE = 2
+private const val REQUEST_CODE = 1
 
 var isLoading = false
 
 val retrofitClient: IconFinderService by lazy {
-    interceptor.level = HttpLoggingInterceptor.Level.BODY
+  //  interceptor.level = HttpLoggingInterceptor.Level.BODY
 //    val httpClient = OkHttpClient.Builder().addInterceptor(AuthInterceptor("Bearer ", accessToken)).build()
-    val build = httpClient.connectTimeout(100, TimeUnit.SECONDS)
-        .readTimeout(100, TimeUnit.SECONDS)
+    val build = httpClient
+        //.connectTimeout(100, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS)
         .build()
 
     val client = Retrofit.Builder()
