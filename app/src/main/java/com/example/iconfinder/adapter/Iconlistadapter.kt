@@ -37,6 +37,7 @@ class IconListAdapter(var list: List<Icon>)
         holder.bind(position)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun submitList(list: List<Icon>) {
         this.list = list
         notifyDataSetChanged()
@@ -50,40 +51,32 @@ class IconListAdapter(var list: List<Icon>)
 
 
             with(itemView) {
-                if(item.categories.isNotEmpty())
-                {
+                if(item.categories.isNotEmpty()){
                     if(item.categories[0].name!=null)
-                    {
                         icon_name.text = "${item.categories[0].name}"
-                    }
                 }
 
-
                 if (item.raster_sizes.size > 6)
-                    image.load(item.raster_sizes[6].formats[0].preview_url) {
-                        crossfade(true)
-                        placeholder(R.drawable.ic_loading)
-                    }
-
+                    imageicon.load(item.raster_sizes[6].formats[0].preview_url)
                 else
-                    image.load(item.raster_sizes[0].formats[0].preview_url) {
-                        crossfade(true)
-                        placeholder(R.drawable.ic_loading)
-                    }
+                    imageicon.load(item.raster_sizes[0].formats[0].preview_url)
 
                 if (item.is_premium) {
                     image_paid.visibility = View.VISIBLE
                     download_btn.visibility = View.GONE
                     price.visibility = View.VISIBLE
+
                       if (item.prices.isNotEmpty()) {
-                        val indianprice = (item.prices[0].price) * 78
-                        price.text = "₹$indianprice"
+                           val indianprice = (item.prices[0].price) * 78
+                           price.text = "₹$indianprice"
                          }
-                } else {
+                }
+                else {
                     image_paid.visibility = View.INVISIBLE
                     download_btn.visibility = View.VISIBLE
                     price.visibility = View.INVISIBLE
-                  download_btn.setOnClickListener {
+
+                    download_btn.setOnClickListener {
                         if (!isPermissionGranted(context)) {
                             requestPermissions(context as Activity,
                                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -94,7 +87,8 @@ class IconListAdapter(var list: List<Icon>)
                                 val filePath = item.raster_sizes[0].formats[0].download_url
                                 download(context, filePath,item.categories[0].name)
                             }
-                        } else {
+                        }
+                        else {
                           //  Log.d("else","Request Accepted")
                             val filePath = item.raster_sizes[0].formats[0].download_url
                            download(context, filePath,item.categories[0].name)
@@ -103,12 +97,14 @@ class IconListAdapter(var list: List<Icon>)
                     }
                 }
             }
+
         private fun download(context: Context, url:String, fileName:String) {
             if (isPermissionGranted(context)) {
                 try {
                     val downloadManager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                     val imageLink = Uri.parse(url)
                     val request = DownloadManager.Request(imageLink)
+
                     request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE or DownloadManager.Request.NETWORK_WIFI)
                         .setMimeType("image/png")
                         .setAllowedOverRoaming(true)
@@ -119,12 +115,15 @@ class IconListAdapter(var list: List<Icon>)
                             Environment.DIRECTORY_DOWNLOADS,
                             File.separator + fileName + ".png"
                         )
+
                     downloadManager.enqueue(request)
                     context.toast("Icon Download Successful")
-                } catch (e: Exception) {
+                }
+                catch (e: Exception) {
                     context.toast("Icon Download Failed")
                 }
-            } else {
+            }
+            else {
                 askForPermission(context as Activity)
             }
         }

@@ -4,48 +4,21 @@ package com.example.iconfinder.network
 import android.Manifest
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.widget.Toast
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-
-
-private val interceptor = HttpLoggingInterceptor()
-private val httpClient = OkHttpClient.Builder().addInterceptor(AuthInterceptor("Bearer ", "X0vjEUN6KRlxbp2DoUkyHeM0VOmxY91rA6BbU5j3Xu6wDodwS0McmilLPBWDUcJ1"))
-private const val REQUEST_CODE = 1
-
 var isLoading = false
 
-val retrofitClient: IconFinderService by lazy {
-  //  interceptor.level = HttpLoggingInterceptor.Level.BODY
-//    val httpClient = OkHttpClient.Builder().addInterceptor(AuthInterceptor("Bearer ", accessToken)).build()
-    val build = httpClient
-        //.connectTimeout(100, TimeUnit.SECONDS).readTimeout(100, TimeUnit.SECONDS)
-        .build()
-
-    val client = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(build)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(IconFinderService::class.java)
-    client
-}
 fun askForPermission(activity: Activity) {
     ActivityCompat.requestPermissions(
         activity,
         arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-        REQUEST_CODE
+        1
     )
 }
 

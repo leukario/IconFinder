@@ -20,11 +20,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.grid_item.*
 import java.util.*
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var adapter: IconListAdapter
     private lateinit var layoutManager: GridLayoutManager
     private lateinit var viewModel: MainActivityViewModel
+
     var query = "default"
     val defaultQuery = "default"
     private var startIndex = 0
@@ -41,7 +43,6 @@ class MainActivity : AppCompatActivity() {
             query = savedInstanceState.getString(QUERY, defaultQuery)
             startIndex = savedInstanceState.getInt(START_INDEX, 0)
         }
-
         if (isNetworkConnected(this))
             loadData(query, 10, startIndex)
         else
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        Log.d("init", "in init")
         showLoading(false)
         adapter = IconListAdapter(listOf())
         layoutManager = GridLayoutManager(this, 2)
@@ -64,18 +66,18 @@ class MainActivity : AppCompatActivity() {
 
     private fun loadData(query: String, count: Int, index: Int) {
         showLoading(true)
-        //Log.d("InLoaddata", "hello")
         viewModel.getIcons(query, count, index).observe(this,
             { list ->
 
                 listItems.addAll(list)
                 removeDuplicateValues(listItems)
                 adapter.submitList(listItems)
-               //Log.d("Size", listItems.size.toString())//The Api is not sending any data it can be shown in logcat
+             //  Log.d("Size", listItems.size.toString())
 
                 showLoading(false)
-               if (list.isEmpty()) toast("No more results found!")
-              //  Log.d("Main", listItems.size.toString())
+
+                if (list.isEmpty()) toast("No more results found!")
+             //   Log.d("Main", listItems.size.toString())
             })
     }
 
@@ -89,23 +91,21 @@ class MainActivity : AppCompatActivity() {
         listItems.addAll(map.values)
     }
 
+
     private fun addOnScrollListener() {
         icon_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 val count = layoutManager.itemCount
-                Log.d("Scroll2","here")
+                val holderCount = layoutManager.childCount
+                val oldCount = layoutManager.findFirstVisibleItemPosition()
 
-                    val holderCount = layoutManager.childCount
-                    val oldCount = layoutManager.findFirstVisibleItemPosition()
-                    Log.d("Scroll1","here")
 
-                    if (holderCount + oldCount >= count - 4 && !isLoading) {
-                        Log.d("Scroll","here")
-                        startIndex += 20
-                        viewModel.getIcons(query, NUMBER_OF_ICONS, startIndex)
-                    }
+                if (holderCount + oldCount >= count - 4 && !isLoading) {
+                    startIndex += 20
+                    loadData(query, NUMBER_OF_ICONS, startIndex)
+                }
             }
         })
     }
@@ -121,7 +121,8 @@ class MainActivity : AppCompatActivity() {
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 if (query != defaultQuery) {
                     removeAndReload()
-                    viewModel.getIcons(defaultQuery, NUMBER_OF_ICONS, 0)
+                    loadData(defaultQuery, NUMBER_OF_ICONS, 0)
+
                 }
                 return true
             }
@@ -134,7 +135,8 @@ class MainActivity : AppCompatActivity() {
 
                 removeAndReload()
                 this@MainActivity.query = query
-                viewModel.getIcons(query, NUMBER_OF_ICONS, 0)
+                loadData(query, NUMBER_OF_ICONS, 0)
+
                 return true
             }
 
